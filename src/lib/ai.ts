@@ -38,17 +38,11 @@ export async function continueConversation(messages: CoreMessage[]) {
     No yapping.
   `;
 
-  const startTime = performance.now();
-
   const result = await streamText({
     model: openai("gpt-4o-mini"),
     system,
     messages,
     maxTokens: 1000,
-    onFinish: () => {
-      const duration = Math.round(performance.now() - startTime) / 1000;
-      console.log(`Finished streaming AI response in ${duration} seconds.`);
-    },
   });
 
   const stream = createStreamableValue(result.textStream);
