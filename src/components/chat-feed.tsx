@@ -1,6 +1,7 @@
 import { CoreMessage } from "ai";
 import { RefObject } from "react";
 import ChatMessage from "./chat-message";
+import ChatTimestamp from "./chat-timestamp";
 
 interface ChatFeedProps {
   messages: CoreMessage[];
@@ -11,16 +12,7 @@ export default function ChatFeed({ messages, scrollAnchor }: ChatFeedProps) {
   return (
     <div className="no-scrollbar overflow-y-scroll">
       <div className="h-[85px]" />
-      <div className="mb-3 flex flex-col items-center text-nowrap text-xs text-zinc-500">
-        <p>nicholasly.com</p>
-        <p suppressHydrationWarning>
-          Today{" "}
-          {new Date().toLocaleTimeString([], {
-            hour: "numeric",
-            minute: "numeric",
-          })}
-        </p>
-      </div>
+      <ChatTimestamp />
       <div className="flex flex-col gap-3">
         {messages.map((message, index) => (
           <ChatMessage key={index} message={message} />
