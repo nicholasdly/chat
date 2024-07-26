@@ -81,7 +81,7 @@ export default function Chat() {
   }, [messages]);
 
   return (
-    <section className="relative mx-auto flex h-full max-w-lg flex-col overflow-hidden rounded-3xl border p-5">
+    <section className="relative mx-auto flex h-full max-w-lg flex-col overflow-hidden rounded-3xl border p-5 dark:border-zinc-600">
       <ChatHeader />
       <ChatFeed messages={messages} scrollAnchor={scrollAnchor} />
       <ChatForm

@@ -16,13 +16,13 @@ export default function ChatForm({
 }: ChatFormProps) {
   return (
     <form
-      className="absolute inset-x-0 bottom-0 rounded-b-3xl bg-white/70 px-5 pb-5 pt-3 backdrop-blur-md"
+      className="absolute inset-x-0 bottom-0 rounded-b-3xl bg-white/70 px-5 pb-5 pt-3 backdrop-blur-md dark:bg-zinc-900/70"
       onSubmit={handleSubmit}
     >
-      <div className="flex rounded-2xl border">
+      <div className="flex rounded-2xl border dark:border-zinc-600">
         <textarea
           id="editor"
-          className="mr-8 w-full resize-none bg-transparent px-3 py-2 outline-none"
+          className="mr-8 w-full resize-none bg-transparent px-3 py-2 outline-none dark:placeholder:text-zinc-500"
           placeholder="Send a message..."
           rows={1}
           maxLength={200}
