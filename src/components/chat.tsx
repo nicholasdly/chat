@@ -5,9 +5,9 @@ import { CoreMessage } from "ai";
 import { readStreamableValue } from "ai/rsc";
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
-import MessageHeader from "./message-header";
-import MessageFeed from "./message-feed";
-import MessageForm from "./message-editor";
+import ChatHeader from "./chat-header";
+import ChatFeed from "./chat-feed";
+import ChatForm from "./chat-form";
 
 export default function Chat() {
   const [messages, setMessages] = useState<CoreMessage[]>([]);
@@ -82,9 +82,9 @@ export default function Chat() {
 
   return (
     <section className="relative mx-auto flex h-full max-w-lg flex-col overflow-hidden rounded-3xl border p-5">
-      <MessageHeader />
-      <MessageFeed messages={messages} scrollAnchor={scrollAnchor} />
-      <MessageForm
+      <ChatHeader />
+      <ChatFeed messages={messages} scrollAnchor={scrollAnchor} />
+      <ChatForm
         input={input}
         handleChange={handleChange}
         handleSubmit={handleSubmit}

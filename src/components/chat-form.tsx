@@ -1,19 +1,19 @@
 import { ArrowUpIcon } from "lucide-react";
 import { ChangeEvent, FormEvent } from "react";
 
-interface MessageFormProps {
+interface ChatFormProps {
   input: string;
   handleChange: (event: ChangeEvent<HTMLTextAreaElement>) => void;
   handleSubmit: (event?: FormEvent<HTMLFormElement>) => Promise<void>;
   loading: boolean;
 }
 
-export default function MessageForm({
+export default function ChatForm({
   input,
   handleChange,
   handleSubmit,
   loading,
-}: MessageFormProps) {
+}: ChatFormProps) {
   return (
     <form
       className="absolute inset-x-0 bottom-0 rounded-b-3xl bg-white/70 px-5 pb-5 pt-3 backdrop-blur-md"
@@ -42,6 +42,7 @@ export default function MessageForm({
         <div className="absolute bottom-[25px] right-[28px] size-fit">
           <button
             type="submit"
+            aria-label="Send"
             disabled={loading || input.trim().length <= 0}
             className="inline-flex aspect-square size-7 items-center justify-center rounded-full bg-blue-500 text-white transition-colors duration-300 disabled:bg-zinc-500"
           >
