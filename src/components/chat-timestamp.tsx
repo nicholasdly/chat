@@ -8,7 +8,7 @@ export default function ChatTimestamp() {
 
   return (
     <div className="mb-3 flex flex-col items-center text-nowrap text-xs text-zinc-500">
-      <p>nicholasly.com</p>
+      <p>chat.nicholasly.com</p>
       <Suspense key={hydrated ? "local" : "utc"}>
         <time dateTime={new Date().toISOString()}>
           Today{" "}

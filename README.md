@@ -1,14 +1,14 @@
-# nicholasly.com
+# chat.nicholasly.com
 
-> My personal website and AI assistant.
+> Have a chat with my personal AI chatbot!
 
-Want to get to know me? Have a chat with my personal AI assistant on my website. Powered by `gpt-4o-mini`, [nicholasly.com](https://nicholasly.com/) uses prompt engineering to create an AI chatbot that can talk about my life and work.
+Powered by `gpt-4o-mini`, [chat.nicholasly.com](https://chat.nicholasly.com/) uses prompt engineering to create an AI chatbot that can converse about my life and work.
 
 Design inspired by Apple's iMessage service.
 
 ## Development
 
-**nicholasly.com** is built with the following tools:
+**chat.nicholasly.com** is built with the following tools:
 
 - **Web Framework**: [Next.js](https://nextjs.org/)
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/)
