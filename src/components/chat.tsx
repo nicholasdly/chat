@@ -1,81 +1,38 @@
 "use client";
 
-import { CoreMessage } from "ai";
-import { readStreamableValue } from "ai/rsc";
-import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
+import { Message, useChat } from "ai/react";
+import { ArrowUpIcon } from "lucide-react";
+import Image from "next/image";
+import { useEffect, useRef } from "react";
+
+import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
-import { continueConversation } from "@/lib/ai";
+function ChatMessage({ message }: { message: Message }) {
+  return (
+    <div
+      className={cn(
+        "w-max max-w-[75%] hyphens-auto break-words rounded-2xl px-3 py-2",
+        message.role === "user"
+          ? "self-end whitespace-pre-line bg-blue-500"
+          : "bg-zinc-200 dark:bg-zinc-700",
+      )}
+    >
+      <article
+        className={
+          message.role === "user"
+            ? "text-white"
+            : "text-black dark:text-zinc-200"
+        }
+      >
+        {message.content}
+      </article>
+    </div>
+  );
+}
 
-import ChatFeed from "./chat-feed";
-import ChatForm from "./chat-form";
-import ChatHeader from "./chat-header";
-
-export default function Chat() {
-  const [messages, setMessages] = useState<CoreMessage[]>([]);
-  const [input, setInput] = useState("");
-  const [loading, setLoading] = useState(false);
+function ChatFeed({ messages }: { messages: Message[] }) {
   const scrollAnchor = useRef<HTMLDivElement>(null);
-
-  /**
-   * Updates the message editor `textarea` element height to fit the content of the element.
-   * If the `reset` option is set to `true`, the `textarea` content and user input state will be reset.
-   */
-  const resizeInput = ({ reset }: { reset: boolean }) => {
-    const editor = document.getElementById("editor") as HTMLTextAreaElement;
-
-    if (reset) {
-      setInput("");
-      editor.value = "";
-    }
-
-    editor.style.height = "auto";
-    editor.style.height = editor.scrollHeight + "px";
-  };
-
-  /**
-   * Updates the user input state and resizes the message editor.
-   * @param event A React `textarea` change event.
-   */
-  const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    setInput(event.target.value);
-    resizeInput({ reset: false });
-  };
-
-  /**
-   * Form submission handler that resets the user input state and appends a user message to the conversation.
-   * @param event A React `form` event.
-   */
-  const handleSubmit = async (event?: FormEvent<HTMLFormElement>) => {
-    event?.preventDefault();
-
-    const newMessages: CoreMessage[] = [
-      ...messages,
-      { content: input, role: "user" },
-    ];
-
-    setLoading(true);
-    setMessages(newMessages);
-    resizeInput({ reset: true });
-
-    try {
-      const result = await continueConversation(newMessages);
-
-      for await (const content of readStreamableValue(result)) {
-        setMessages([
-          ...newMessages,
-          {
-            role: "assistant",
-            content: content as string,
-          },
-        ]);
-      }
-    } catch (error) {
-      handleMessageError(error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   // Automatically scrolls message feed on changes so that new messages are visible.
   useEffect(() => {
@@ -83,40 +40,101 @@ export default function Chat() {
   }, [messages]);
 
   return (
-    <section className="relative mx-auto flex h-full max-w-lg flex-col overflow-hidden rounded-3xl border p-5 dark:border-zinc-600">
-      <ChatHeader />
-      <ChatFeed messages={messages} scrollAnchor={scrollAnchor} />
-      <ChatForm
-        input={input}
-        handleChange={handleChange}
-        handleSubmit={handleSubmit}
-        loading={loading}
-      />
+    <section className="no-scrollbar overflow-y-scroll">
+      <div className="h-[85px]" />
+      <div className="mb-3 flex flex-col items-center text-nowrap text-xs text-zinc-500">
+        <p>chat.nicholasly.com</p>
+        <p>
+          Today{" "}
+          {new Date().toLocaleTimeString([], {
+            hour: "numeric",
+            minute: "numeric",
+          })}
+        </p>
+      </div>
+      <div className="flex flex-col gap-3">
+        {messages.map((message, index) => (
+          <ChatMessage key={index} message={message} />
+        ))}
+      </div>
+      <div className="h-[54px]" ref={scrollAnchor} />
     </section>
   );
 }
 
-/**
- * Displays a specific toast message for an expected error.
- * @param error The error object caught by a `try-catch`.
- */
-function handleMessageError(error: unknown) {
-  const isError = error instanceof Error;
-  if (!isError) throw error;
+export default function Chat() {
+  const { messages, input, handleInputChange, handleSubmit, isLoading } =
+    useChat({
+      keepLastMessageOnError: true,
+      experimental_throttle: 50,
+      onError: (error) => {
+        switch (error.message) {
+          case "TOO_MANY_REQUESTS":
+            return toast.error("Rate limit exceeded!");
+          default:
+            return toast.error("Something went wrong!");
+        }
+      },
+    });
 
-  let message: string;
-  let description: string;
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      if (!isLoading && input.trim().length > 0) handleSubmit();
+    }
+  };
 
-  switch (error.message) {
-    case "TOO_MANY_REQUESTS":
-      message = "Rate limit exceeded!";
-      description = "Please wait a few moments then try again.";
-      break;
-    default:
-      message = "Uh oh!";
-      description = "Something went wrong!";
-      break;
-  }
+  useEffect(() => {
+    const editor = document.getElementById("editor") as HTMLTextAreaElement;
+    editor.style.height = "auto";
+    editor.style.height = editor.scrollHeight + "px";
+  }, [input]);
 
-  toast.error(message, { description });
+  return (
+    <div className="relative mx-auto flex h-full max-w-lg flex-col overflow-hidden rounded-3xl border p-5 dark:border-zinc-600">
+      <header className="absolute inset-x-0 top-0 flex flex-col items-center gap-1 border-b bg-zinc-100/70 pb-2 pt-3 backdrop-blur-md dark:border-zinc-600 dark:bg-zinc-800/70">
+        <div className="relative size-12 overflow-hidden rounded-full bg-gradient-to-br from-red-200 to-red-300">
+          <Image
+            className="object-scale-down p-1.5"
+            src="/memoji.png"
+            alt="Nicholas Ly's memoji"
+            width={48}
+            height={48}
+            priority
+          />
+        </div>
+        <h1 className="text-nowrap text-sm">nick&apos;s assistant 🤖</h1>
+      </header>
+      <ChatFeed messages={messages} />
+      <form
+        className="absolute inset-x-0 bottom-0 rounded-b-3xl bg-white/70 px-5 pb-5 pt-3 backdrop-blur-md dark:bg-zinc-900/70"
+        onSubmit={handleSubmit}
+      >
+        <div className="flex rounded-2xl border dark:border-zinc-600">
+          <textarea
+            id="editor"
+            className="mr-8 w-full resize-none bg-transparent px-3 py-2 outline-none dark:placeholder:text-zinc-500"
+            value={input}
+            onChange={handleInputChange}
+            onKeyDown={(event) => handleKeyDown(event as unknown as KeyboardEvent)}
+            rows={1}
+            maxLength={200}
+            placeholder="Send a message..."
+            spellCheck
+            autoFocus
+          />
+          <div className="absolute bottom-[25px] right-[28px] size-fit">
+            <button
+              type="submit"
+              aria-label="Send"
+              disabled={isLoading || input.trim().length <= 0}
+              className="inline-flex aspect-square size-7 items-center justify-center rounded-full bg-blue-500 text-white transition-colors duration-300 disabled:bg-zinc-500"
+            >
+              <ArrowUpIcon className="size-5 stroke-[3px]" />
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  );
 }

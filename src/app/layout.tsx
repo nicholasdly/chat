@@ -24,11 +24,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <Toaster richColors theme="system" />
       <body
         className={cn("dark:bg-zinc-900 dark:text-zinc-200", inter.variable)}
       >
         {children}
+        <Toaster theme="system" richColors />
       </body>
     </html>
   );
