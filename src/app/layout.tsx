@@ -1,7 +1,8 @@
-import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Toaster } from "sonner";
+
+import { cn } from "@/lib/utils";
 import "@/styles/globals.css";
 
 const inter = Inter({
@@ -10,7 +11,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Nicholas Ly",
+  title: "chat.nicholasly.com",
   description:
     "Get to know Nicholas Ly and his work by chatting with his AI assistant!",
   icons: [{ rel: "icon", url: "/favicon.ico" }],

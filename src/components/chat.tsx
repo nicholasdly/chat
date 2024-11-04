@@ -1,13 +1,15 @@
 "use client";
 
-import { continueConversation } from "@/lib/ai";
 import { CoreMessage } from "ai";
 import { readStreamableValue } from "ai/rsc";
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
-import ChatHeader from "./chat-header";
+
+import { continueConversation } from "@/lib/ai";
+
 import ChatFeed from "./chat-feed";
 import ChatForm from "./chat-form";
+import ChatHeader from "./chat-header";
 
 export default function Chat() {
   const [messages, setMessages] = useState<CoreMessage[]>([]);

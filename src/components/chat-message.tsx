@@ -1,6 +1,8 @@
 import { CoreMessage } from "ai";
-import { MemoizedReactMarkdown } from "./markdown";
+
 import { cn } from "@/lib/utils";
+
+import { MemoizedReactMarkdown } from "./markdown";
 
 export default function ChatMessage({ message }: { message: CoreMessage }) {
   return (

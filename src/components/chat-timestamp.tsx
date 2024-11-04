@@ -1,7 +1,8 @@
 "use client";
 
-import { useHydration } from "@/lib/hooks/use-hydration";
 import { Suspense } from "react";
+
+import { useHydration } from "@/lib/hooks/use-hydration";
 
 export default function ChatTimestamp() {
   const hydrated = useHydration();

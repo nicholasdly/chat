@@ -1,11 +1,12 @@
 "use server";
 
-import { openai } from "@ai-sdk/openai";
-import { Ratelimit } from "@upstash/ratelimit";
-import { Redis } from "@upstash/redis";
 import { CoreMessage, streamText } from "ai";
 import { createStreamableValue } from "ai/rsc";
 import { headers } from "next/headers";
+
+import { openai } from "@ai-sdk/openai";
+import { Ratelimit } from "@upstash/ratelimit";
+import { Redis } from "@upstash/redis";
 
 const ratelimit = new Ratelimit({
   redis: Redis.fromEnv(),
@@ -14,7 +15,9 @@ const ratelimit = new Ratelimit({
 });
 
 export async function continueConversation(messages: CoreMessage[]) {
-  const ip = headers().get("x-forwarded-for") ?? "ip";
+  const headerStore = await headers();
+  const ip = headerStore.get("x-forwarded-for") ?? "ip";
+
   const { success } = await ratelimit.limit(ip);
   if (!success) throw new Error("TOO_MANY_REQUESTS");
 

@@ -1,3 +1,4 @@
 {
-  "extends": "next/core-web-vitals"
+  "plugins": ["eslint-plugin-react-compiler"],
+  "extends": ["next/core-web-vitals", "next/typescript"]
 }
