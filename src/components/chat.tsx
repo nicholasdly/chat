@@ -40,7 +40,7 @@ function ChatFeed({ messages }: { messages: Message[] }) {
   }, [messages]);
 
   return (
-    <section className="no-scrollbar overflow-y-scroll">
+    <div className="no-scrollbar overflow-y-scroll">
       <div className="h-[85px]" />
       <div className="mb-3 flex flex-col items-center text-nowrap text-xs text-zinc-500">
         <p>chat.nicholasly.com</p>
@@ -58,7 +58,7 @@ function ChatFeed({ messages }: { messages: Message[] }) {
         ))}
       </div>
       <div className="h-[54px]" ref={scrollAnchor} />
-    </section>
+    </div>
   );
 }
 
