@@ -13,7 +13,6 @@ Design inspired by Apple's iMessage service.
 - **Web Framework**: [Next.js](https://nextjs.org/)
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/)
 - **AI Toolkit**: [Vercel AI SDK](https://sdk.vercel.ai/)
-- **Backend**: [React Server Actions](https://react.dev/reference/rsc/server-actions) and [Upstash](https://upstash.com/)
 - **Deployment**: [Vercel](https://vercel.com/)
 
 ### Installation
