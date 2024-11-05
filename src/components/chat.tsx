@@ -4,17 +4,17 @@ import { Message, useChat } from "ai/react";
 import { ArrowUpIcon } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef } from "react";
+import { toast } from "sonner";
 
 import { cn } from "@/lib/utils";
-import { toast } from "sonner";
 
 function ChatMessage({ message }: { message: Message }) {
   return (
     <div
       className={cn(
-        "w-max max-w-[75%] hyphens-auto break-words rounded-2xl px-3 py-2",
+        "w-max max-w-[75%] hyphens-auto whitespace-pre-line rounded-2xl px-3 py-2",
         message.role === "user"
-          ? "self-end whitespace-pre-line bg-blue-500"
+          ? "self-end bg-blue-500"
           : "bg-zinc-200 dark:bg-zinc-700",
       )}
     >
@@ -116,7 +116,9 @@ export default function Chat() {
             className="mr-8 w-full resize-none bg-transparent px-3 py-2 outline-none dark:placeholder:text-zinc-500"
             value={input}
             onChange={handleInputChange}
-            onKeyDown={(event) => handleKeyDown(event as unknown as KeyboardEvent)}
+            onKeyDown={(event) =>
+              handleKeyDown(event as unknown as KeyboardEvent)
+            }
             rows={1}
             maxLength={200}
             placeholder="Send a message..."
