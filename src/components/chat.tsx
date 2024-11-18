@@ -81,6 +81,7 @@ export default function Chat() {
     useChat({
       keepLastMessageOnError: true,
       experimental_throttle: 50,
+      initialInput: "Who is Nicholas Ly?",
       onError: (error) => {
         switch (error.message) {
           case "TOO_MANY_REQUESTS":
