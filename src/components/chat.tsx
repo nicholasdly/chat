@@ -46,6 +46,10 @@ function ChatFeed({
     <div className="no-scrollbar overflow-y-scroll">
       <div className="h-[85px]" />
       <div className="mb-3 flex flex-col items-center text-nowrap text-xs text-zinc-500">
+        <p>Responses are powered by artificial intelligence.</p>
+        <p>Artificial intellgence can make mistakes.</p>
+      </div>
+      <div className="mb-3 flex flex-col items-center text-nowrap text-xs text-zinc-500">
         <p>chat.nicholasly.com</p>
         <p>
           Today{" "}
