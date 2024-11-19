@@ -85,7 +85,7 @@ export default function Chat() {
       onError: (error) => {
         switch (error.message) {
           case "TOO_MANY_REQUESTS":
-            return toast.error("Rate limit exceeded!");
+            return toast.error("Daily rate limit exceeded!");
           default:
             return toast.error("Something went wrong!");
         }

@@ -37,5 +37,5 @@ function createRatelimit(requests: number, window: Duration) {
  * @see https://upstash.com/docs/redis/sdks/ratelimit-ts/overview#upstash-rate-limit
  */
 export const ratelimits = {
-  chat: createRatelimit(10, "30s"),
+  chat: createRatelimit(50, "1 d"),
 };
